@@ -4,6 +4,8 @@ from Pieces.Bishop import Bishop
 
 
 class Queen(Piece):
+    
+    NAME = 'Queen'
 
     def __init__(self, side, square, condition = 'Start') -> None:
         super().__init__(side, square, condition)

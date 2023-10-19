@@ -2,6 +2,8 @@ from Pieces.Piece import Piece
 
 class Knight(Piece):
     
+    NAME = 'Knight'
+    
     def __init__(self, side, square, condition = 'Start') -> None:
         super().__init__(side, square, condition)
         

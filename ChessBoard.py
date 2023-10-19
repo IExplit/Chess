@@ -35,7 +35,7 @@ class ChessBoard:
     def get_pos(self, position):
         if position in self.positions.keys():
             piece = self.positions[position]['piece']
-            
+            print(piece)
             return {
                 'piece': piece.__dict__ if piece != None else None,
                 'threats': self.positions[position]['threats']
@@ -66,7 +66,10 @@ r1 = King(board, (101, 1), 'Black')
 board.add_piece(r)
 board.add_piece(r1)
 r.get_moves()
-r1.get_moves()
+print('----------')
+board.get_pos(r.position)
+"""r1.get_moves()"""
+
 
 
 

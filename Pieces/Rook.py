@@ -3,6 +3,9 @@ from Pieces.Piece import Piece
 class Rook(Piece):
     
     NAME = 'Rook'
+    
+    def __repr__(self) -> str:
+      return self.side + __name__
 
     def __init__(self, side, square, condition = 'Start') -> None:
         super().__init__(side, square, condition)

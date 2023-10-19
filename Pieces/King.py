@@ -2,6 +2,8 @@ from Pieces.Piece import Piece
 
 
 class King(Piece):
+   
+   NAME = 'King'
      
    def __repr__(self) -> str:
       return self.side + __name__
