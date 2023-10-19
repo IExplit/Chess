@@ -59,9 +59,11 @@ class ChessBoard:
 
 
 board = ChessBoard()
-r = Bishop(board, (97, 1), 'Black')
+r = Knight(board, (97, 1), 'Black')
+r2 = Knight(board, (99, 2), 'Black')
 
 board.add_piece(r)
+board.add_piece(r2)
 
 r.get_moves()
 print('----------')

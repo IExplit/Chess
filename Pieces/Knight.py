@@ -15,17 +15,16 @@ class Knight(Piece):
             (x+1, y-2), (x-1, y-2), (x-2, y-1), (x-2, y+1),
         ]
         
-        for x, y in movements:
+        for x, y in movements.copy():
             if (x, y) in self.board.positions.keys():
                 if self.board.get_pos((x, y)).get('piece'):
-                    if self.side == self.board.get_pos((x, y))['piece'].get('side'):
+                    if self.side == self.board.get_pos((x, y))['piece'].side:
                         movements.remove((x, y))
             
             else:
                 movements.remove((x, y))
-        
-        for i in movements:
-            self.board.positions[i]['threats'][self.side].append(self)
+        for move in movements:
+            self.board.positions[move]['threats'][self.side].append(self)
             
         self.movements = movements
         
