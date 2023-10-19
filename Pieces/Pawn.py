@@ -20,9 +20,12 @@ class Pawn(Piece):
 
         if self.side == 'White':
 
-            attacked_pos = [(x - 1, y + 1), (x + 1, y + 1)]
+            attacked_pos = []
+            for v, h in [(x - 1, y + 1), (x + 1, y + 1)]:
+                if (v, h) in self.board.positions.keys():
+                    attacked_pos.append((v, h))
 
-            if self.board.get_pos((x, y + 1))['piece'] == None:
+            if (v, h) in self.board.positions.keys() and self.board.get_pos((x, y + 1))['piece'] == None:
                 movements.append((x, y + 1))
 
                 if self.condition == 'Start':
@@ -36,14 +39,17 @@ class Pawn(Piece):
 
                     if self.board.get_pos((v, h))['piece'] != None \
                         or (self.board.get_pos((v, h - 1))['piece'] != None \
-                            and self.board.get_pos((v, h - 1))['piece'].get('did_long_move')) == True:
+                            and self.board.get_pos((v, h - 1))['piece'].__dict__.get('did_long_move')) == True:
                         movements.append((v, h))
         
         elif self.side == 'Black':
+            
+            attacked_pos = []
+            for v, h in [(x - 1, y - 1), (x + 1, y - 1)]:
+                if (v, h) in self.board.positions.keys():
+                    attacked_pos.append((v, h))
 
-            attacked_pos = [(x - 1, y - 1), (x + 1, y - 1)]
-
-            if self.board.get_pos((x, y - 1))['piece'] == None:
+            if (v, h) in self.board.positions.keys() and self.board.get_pos((x, y - 1))['piece'] == None:
                 movements.append((x, y - 1))
 
                 if self.condition == 'Start':
@@ -56,7 +62,7 @@ class Pawn(Piece):
 
                     if self.board.get_pos((v, h))['piece'] != None \
                         or (self.board.get_pos((v, h + 1))['piece'] != None \
-                            and self.board.get_pos((v, h + 1))['piece'].get('did_long_move')) == True:
+                            and self.board.get_pos((v, h + 1))['piece'].__dict__.get('did_long_move')) == True:
                         movements.append((v, h))
         
         self.attacked_pos = attacked_pos

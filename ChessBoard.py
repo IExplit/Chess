@@ -59,16 +59,17 @@ class ChessBoard:
 
 
 board = ChessBoard()
-r = Knight(board, (97, 1), 'Black')
-r2 = Knight(board, (99, 2), 'Black')
+r = Rook(board, (97, 1), 'Black')
+r1 = King(board, (101, 1), 'Black')
+p1 = Pawn(board, (100, 5), 'Black', did_long_move = True, condition='alive')
+p2 = Pawn(board, (97, 8), 'White', condition='alive')
 
-board.add_piece(r)
-board.add_piece(r2)
+board.add_piece(p1)
+board.add_piece(p2)
+p1.get_moves()
+p2.get_moves()
 
-r.get_moves()
-print('----------')
-board.get_pos(r.position)
-print(r.movements)
+print(p2.movements)
 
 
 
