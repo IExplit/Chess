@@ -1,5 +1,9 @@
 from Pieces.Pawn import Pawn
 from Pieces.King import King
+from Pieces.Rook import Rook
+from Pieces.Bishop import Bishop
+from Pieces.Knight import Knight
+from Pieces.Queen import Queen
 
 
 class ChessBoard:
@@ -16,7 +20,7 @@ class ChessBoard:
 
                 self.positions[(vertical, horizontal)] = {
                     'piece': None,
-                    'treats': {
+                    'threats': {
                         'White': [],
                         'Black': []
                     }
@@ -31,10 +35,10 @@ class ChessBoard:
     def get_pos(self, position):
         if position in self.positions.keys():
             piece = self.positions[position]['piece']
-
+            
             return {
                 'piece': piece.__dict__ if piece != None else None,
-                'treats': self.positions[position]['treats']
+                'threats': self.positions[position]['threats']
             }
 
     def add_piece(self, piece):
@@ -43,13 +47,27 @@ class ChessBoard:
 
     def remove_piece(self, position):
         piece = self.positions[position]['piece']
-        treats = piece.attacked_pos if piece.NAME == 'Pawn' else piece.movements
+        threats = piece.attacked_pos if piece.NAME == 'Pawn' else piece.movements
         side = piece.side
 
-        for treat in treats:
-            self.positions[treat]['treats'][side].remove(piece)
+        for threat in threats:
+            self.positions[threat]['threats'][side].remove(piece)
 
         self.positions[position]['piece'] = None
+        
+    def arrange_pieces(self):
+        pass
+
+
+board = ChessBoard()
+r = Rook(board, (97, 1), 'Black')
+r1 = King(board, (101, 1), 'Black')
+
+board.add_piece(r)
+board.add_piece(r1)
+r.get_moves()
+r1.get_moves()
+
 
 
 """board = ChessBoard()
@@ -94,12 +112,17 @@ print(board.positions[(101, 3)])
 
 print('-----------')"""
 
-board2 = ChessBoard()
-board2.add_piece(Pawn(board2, (100, 7), 'Black'))
-board2.add_piece(King(board2, (100, 6), 'White'))
+"""board2 = ChessBoard()
+kng1 = King(board2, (100, 6), 'White')
+pwn1b = Pawn(board2, (100, 7), 'Black')
+pwn1w = Pawn(board2, (100, 5), 'White')
+board2.add_piece(kng1)
+board2.add_piece(pwn1b)
+board2.add_piece(pwn1w)
 board2.positions[(100, 7)]['piece'].get_moves()
 board2.positions[(100, 6)]['piece'].get_moves()
 print(board2.positions[(99, 6)])
 print(board2.positions[(101, 6)])
 print(board2.positions[(100, 7)]['piece'].attacked_pos)
 print(board2.positions[(100, 6)]['piece'].movements)
+"""

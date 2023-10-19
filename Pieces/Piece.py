@@ -20,9 +20,12 @@ class Piece:
 
     def move(self, move):
         if move in self.movements and self.condition is not 'Die':
+            self.board.remove_piece(self.position)
             self.position = move
             self.condition = 'alive'
+            self.board.add_piece(self)
 
     
     def kill(self):
+        self.board.remove_piece(self.position)
         self.condition = 'Die'

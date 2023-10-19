@@ -32,7 +32,7 @@ class Pawn(Piece):
 
                 if (v, h) in self.board.positions.keys():
                     
-                    self.board.positions[(v, h)]['treats']['White'].append(self)
+                    self.board.positions[(v, h)]['threats']['White'].append(self)
 
                     if self.board.get_pos((v, h))['piece'] != None \
                         or (self.board.get_pos((v, h - 1))['piece'] != None \
@@ -52,7 +52,7 @@ class Pawn(Piece):
             for v, h in attacked_pos:
                 print(v, h)
                 if (v, h) in self.board.positions.keys():
-                    self.board.positions[(v, h)]['treats']['Black'].append(self)
+                    self.board.positions[(v, h)]['threats']['Black'].append(self)
 
                     if self.board.get_pos((v, h))['piece'] != None \
                         or (self.board.get_pos((v, h + 1))['piece'] != None \

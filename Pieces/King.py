@@ -12,29 +12,39 @@ class King(Piece):
       self.mate = False
    
    def get_moves(self):
-      print(True)
 
       movements = []
       x, y = self.position
 
       for v in range(x - 1, x + 2):
          for h in range(y - 1, y + 2):
-
-            print(self.position)
-            print((v, h))
                 
             if (v, h) != self.position and (v, h) in self.board.positions.keys():
-               print(True)
 
                pos = self.board.get_pos((v, h))
-               pos_treats = pos['treats']
+               pos_threats = pos['threats']
                pos_side = pos['piece'].get('side') if pos['piece'] is not None else None
 
-               if self.side == 'White' and self.side != pos_side and not pos_treats['Black']:
+               if self.side == 'White' and self.side != pos_side and not pos_threats['Black']:
                   movements.append((v, h))
 
-               if self.side == 'Black' and self.side != pos_side and not pos_treats['White']:
+               if self.side == 'Black' and self.side != pos_side and not pos_threats['White']:
                   movements.append((v, h))
+                  
+               if self.position != pos_side:
+                  self.board.positions[(v, h)]['threats'][self.side].append(self)
+                  
+      if self.condition == 'Start':
+         if (x-4, y) in self.board.positions.keys():
+            print(x-4, y)
+            print(self.board.get_pos((x-4, y))['threats'])
+            if self.board.get_pos((x-4, y))['piece'] is not None:
+               if self.board.get_pos((x-4, y))['piece']['NAME'] == 'Rook' and self.board.get_pos((x-4, y))['piece']['side'] == self.side and self.board.get_pos((x-4, y))['piece']['condition'] == 'Start':
+                  movements.append(x-2, y)
+             
+            if self.board.get_pos((x+3, y))['piece'] is not None:
+               if self.board.get_pos((x-3, y))['piece']['NAME'] == 'Rook' and self.board.get_pos((x-4, y))['piece']['side'] == self.side and self.board.get_pos((x-4, y))['piece']['condition'] == 'Start':
+                  movements.append(x+2, y)
 
       self.movements = movements
 
