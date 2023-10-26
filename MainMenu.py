@@ -5,6 +5,7 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel
 
 from CreatePlayers import CreatePlayers
+from GameWindow import GameWindow
 
 class MainMenu(QWidget):
     
@@ -19,12 +20,12 @@ class MainMenu(QWidget):
 
         self.btn_local = QPushButton(self)
         self.btn_local.setGeometry(120+12*2, 650, 120, 70)
-        self.btn_local.setText('Играть на \n одном пк')
-        self.btn_local.clicked.connect(self.one_pc_game)
+        self.btn_local.setText('Играть по \n локальной сети')
 
         self.btn_one_pc = QPushButton(self)
         self.btn_one_pc.setGeometry(120*2+12*3, 650, 120, 70)
-        self.btn_one_pc.setText('Играть по \n локальной сети')
+        self.btn_one_pc.setText('Играть на \n одном пк')
+        self.btn_one_pc.clicked.connect(self.one_pc_game)
 
         self.btn_settings = QPushButton(self)
         self.btn_settings.setGeometry(120*3+12*4, 650, 120, 70)
@@ -36,8 +37,8 @@ class MainMenu(QWidget):
         self.pic.setPixmap(self.pixmap.scaledToWidth(600))
 
     def one_pc_game(self):
-        self.ui = CreatePlayers()
-        self.ui.show()
+        self.game_window = GameWindow()
+        self.game_window.show()
 
 app = QApplication(sys.argv)
 window = MainMenu()
