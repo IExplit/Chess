@@ -56,7 +56,6 @@ class Pawn(Piece):
                     movements.append((x, y - 2))
 
             for v, h in attacked_pos:
-                print(v, h)
                 if (v, h) in self.board.positions.keys():
                     self.board.positions[(v, h)]['threats']['Black'].append(self)
 
@@ -67,3 +66,21 @@ class Pawn(Piece):
         
         self.attacked_pos = attacked_pos
         self.movements = movements
+    
+    def move(self, move):
+        
+        
+        if move in self.movements and self.condition is not 'Die':
+            
+            _, y1 = self.position
+            _, y2 = move
+
+            if abs(y1-y2) == 2:
+                self.did_long_move = True
+            else:
+                self.did_long_move = False
+                
+            self.board.remove_piece(self.position)
+            self.position = move
+            self.condition = 'Alive'
+            self.board.add_piece(self)

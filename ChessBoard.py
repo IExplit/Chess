@@ -59,24 +59,30 @@ class ChessBoard:
 
 
 board = ChessBoard()
-r = Rook(board, (100, 1), 'Black')
-r1 = Rook(board, (101, 1), 'White')
+r = Pawn(board, (100, 5), 'Black', did_long_move=True, condition='Alive')
+r1 = Pawn(board, (101, 5), 'White', condition='Alive')
+r3 = Pawn(board, (102, 7), 'Black')
 
 board.add_piece(r)
 board.add_piece(r1)
-r1.get_moves()
+board.add_piece(r3)
 r.get_moves()
+r3.get_moves()
+r1.get_moves()
 
-print(r.movements)
+
+print(r3.__dict__)
+r3.move((102, 5))
+print(r3.__dict__)
 
 
 
 
 
 """board = ChessBoard()
-board.add_piece(Pawn(board, (99, 5), 'Black', condition='alive'))
-board.add_piece(Pawn(board, (97, 5), 'Black', condition='alive'))
-board.add_piece(Pawn(board, (98, 4), 'White', condition='alive'))
+board.add_piece(Pawn(board, (99, 5), 'Black', condition='Alive'))
+board.add_piece(Pawn(board, (97, 5), 'Black', condition='Alive'))
+board.add_piece(Pawn(board, (98, 4), 'White', condition='Alive'))
 board.positions[(99, 5)]['piece'].get_moves()
 board.positions[(97, 5)]['piece'].get_moves()
 board.positions[(98, 4)]['piece'].get_moves()
@@ -86,8 +92,8 @@ print(board.positions[(97, 5)]['piece'].movements)
 print(board.positions[(98, 4)]['piece'].movements)
 print('-----------')
 
-board.add_piece(Pawn(board, (102, 5), 'White', condition='alive'))
-board.add_piece(Pawn(board, (103, 5), 'Black', condition='alive', did_long_move=True))
+board.add_piece(Pawn(board, (102, 5), 'White', condition='Alive'))
+board.add_piece(Pawn(board, (103, 5), 'Black', condition='Alive', did_long_move=True))
 board.positions[(102, 5)]['piece'].get_moves()
 board.positions[(103, 5)]['piece'].get_moves()
 print(board.positions[(102, 5)]['piece'].movements)
