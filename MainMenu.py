@@ -13,9 +13,21 @@ class MainMenu(QWidget):
         
         self.btn_stockfish = QPushButton(self)
         self.btn_stockfish.setGeometry(12, y+50, 120, 70)
-        self.btn_stockfish.setText('Stockfish')
-        self.btn_local = QPushButton('Local')
-        self.btn_one_pc = QPushButton('One pc')
+        self.btn_stockfish.setText('Играть с ботом')
+
+        self.btn_local = QPushButton(self)
+        self.btn_local.setGeometry(120+12*2, y+50, 120, 70)
+        self.btn_local.setText('Играть на \n одном пк')
+
+        self.btn_one_pc = QPushButton(self)
+        self.btn_one_pc.setGeometry(120*2+12*3, y+50, 120, 70)
+        self.btn_one_pc.setText('Играть по \n локальной сети')
+
+        self.btn_settings = QPushButton(self)
+        self.btn_settings.setGeometry(120*3+12*4, y+50, 120, 70)
+        self.btn_settings.setText('Настройки')
+
+
         
         self.pic = QLabel(self)
         self.pic.setGeometry(12, 12, x, y)
