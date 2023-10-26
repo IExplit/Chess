@@ -13,6 +13,7 @@ class MainMenu(QWidget):
         super().__init__()
         
         self.setWindowTitle('Chess')
+        self.setFixedSize(600-(120*4+12*5)+600, 650+12+70)
         
         self.btn_stockfish = QPushButton(self)
         self.btn_stockfish.setGeometry(12, 650, 120, 70)
