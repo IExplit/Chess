@@ -69,7 +69,6 @@ class Pawn(Piece):
     
     def move(self, move):
         
-        
         if move in self.movements and self.condition is not 'Die':
             
             _, y1 = self.position
