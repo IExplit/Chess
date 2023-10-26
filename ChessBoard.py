@@ -55,7 +55,24 @@ class ChessBoard:
         self.positions[position]['piece'] = None
         
     def arrange_pieces(self):
-        pass
+        for side in ('White', 'Black'):
+            cnt = 7
+            for x in range(97, 101):
+                self.add_piece(Pawn(self, (x, 2 if side == 'White' else 7), side))
+                self.add_piece(Pawn(self, (x+cnt, 2 if side == 'White' else 7), side))
+                if cnt == 7:
+                    self.add_piece(Rook(self, (x, 1 if side == 'White' else 8), side))
+                    self.add_piece(Rook(self, (x+cnt, 1 if side == 'White' else 8), side))
+                elif cnt == 5:
+                    self.add_piece(Knight(self, (x, 1 if side == 'White' else 8), side))
+                    self.add_piece(Knight(self, (x+cnt, 1 if side == 'White' else 8), side))
+                elif cnt == 3:
+                    self.add_piece(Bishop(self, (x, 1 if side == 'White' else 8), side))
+                    self.add_piece(Bishop(self, (x+cnt, 1 if side == 'White' else 8), side))
+                elif cnt == 1:
+                    self.add_piece(Queen(self, (x, 1 if side == 'White' else 8), side))
+                    self.add_piece(King(self, (x+cnt, 1 if side == 'White' else 8), side))
+                cnt -= 2
 
 
 board = ChessBoard()
