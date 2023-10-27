@@ -74,8 +74,10 @@ class ChessGame:
             
             if side == 'White': player1.alive_pieces = self.pieces.copy()
             elif side == 'Black': player2.alive_pieces = self.pieces.copy()[16:]
-
-game = ChessGame(ChessBoard())
-game.arrange_pieces()
-print(game.players[0].alive_pieces, game.players[1].alive_pieces, sep='\n')
         
+        def movement(self, piece, move):
+            player1, player2 = self.players
+            motion = player2 if motion == player1 else player1
+            
+        def transformation(self, piece):
+            pass
