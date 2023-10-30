@@ -75,9 +75,19 @@ class ChessGame:
             if side == 'White': player1.alive_pieces = self.pieces.copy()
             elif side == 'Black': player2.alive_pieces = self.pieces.copy()[16:]
         
+        get_all_pl_moves(player1)
+        get_all_pl_moves(player2)
+        
+        def get_all_pl_moves(player):
+            for piece in player.alive_pieces:
+                piece.get_moves()
+        
         def movement(self, piece, move):
-            player1, player2 = self.players
-            motion = player2 if motion == player1 else player1
+            pl1, pl2 = self.players
+            piece.move(move)
+            piece.get_moves()
+            self.motion = pl2 if self.motion == pl1 else pl1
+            get_all_pl_moves(self.motion)
             
         def transformation(self, piece):
             pass
