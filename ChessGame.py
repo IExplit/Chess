@@ -32,7 +32,7 @@ class ChessGame:
     
     def arrange_pieces(self):
         board = self.board
-        player1, player2 = self.players
+        pl1, pl2 = self.players
         for side in ('White', 'Black'):
             cnt = 7
             for x in range(97, 101):
@@ -72,22 +72,24 @@ class ChessGame:
                     self.pieces.append(king)
                 cnt -= 2
             
-            if side == 'White': player1.alive_pieces = self.pieces.copy()
-            elif side == 'Black': player2.alive_pieces = self.pieces.copy()[16:]
+            if side == 'White': pl1.alive_pieces = self.pieces.copy()
+            elif side == 'Black': pl2.alive_pieces = self.pieces.copy()[16:]
         
-        get_all_pl_moves(player1)
-        get_all_pl_moves(player2)
+        get_all_pl_moves(pl1)
+        get_all_pl_moves(pl2)
         
         def get_all_pl_moves(player):
             for piece in player.alive_pieces:
                 piece.get_moves()
         
         def movement(self, piece, move):
+            final_fields = self.board.white_final_fields.copy() + self.board.black_final_fields.copy()
             pl1, pl2 = self.players
             piece.move(move)
             piece.get_moves()
             self.motion = pl2 if self.motion == pl1 else pl1
             get_all_pl_moves(self.motion)
             
-        def transformation(self, piece):
-            pass
+        def transformation(self, piece, new_piece):
+            if piece.NAME == 'Pawn' and piece.position in final_fields:
+                transformation()
