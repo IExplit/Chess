@@ -1,15 +1,19 @@
 import os
-
 from PyQt5.QtGui import QPixmap
 from PyQt5 import QtCore
+from PyQt5.QtCore import Qt
+
+from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QTableView
+
+from QLabelClicable import QLabelClicable
 
 class GameWindow(QWidget):
     def __init__(self, game = None):
         super().__init__()
         
         self.game = game
-        self.pieces = {}
+        self.positions = {}
         
         self.setWindowModality(QtCore.Qt.ApplicationModal)
         self.setWindowTitle('Chess')
@@ -66,12 +70,29 @@ class GameWindow(QWidget):
         self.lbl_board.setPixmap(self.pixmap_board.scaledToWidth(600))
         
         
-        for piece in self.game.players[1].alive_pieces + self.game.players[0].alive_pieces:
+        for position in self.game.board.positions.keys():
+            x, y = position
+            piece = self.game.board.positions[position]['piece']
+            self.positions[position] = QLabelClicable(self)
+            self.positions[position].setGeometry(50+75*abs(x-97), 50+75*abs(8-y), 75, 75)
+            self.positions[position].setText('ok')
+            if piece is not None:
+                pixmap = QPixmap(piece.IMG)
+                self.positions[position].setPixmap(pixmap.scaledToWidth(75))
+                self.positions[position].setCursor(Qt.PointingHandCursor)
+                self.positions[position].clicked.connect(self.click)
+        
+    def click(self):
+        x, y, _, _ = self.sender().geometry().getRect()
+        print(x, y)
+        
+        
+        """for piece in self.game.players[1].alive_pieces + self.game.players[0].alive_pieces:
             print(piece.side, piece.IMG)
-            self.pieces[piece] = QLabel(self)
-            self.pieces[piece].setGeometry(50+75*abs(piece.position[0]-97), 50+75*abs(8-piece.position[1]), 75, 75)
+            self.positions[piece] = QLabel(self)
+            self.positions[piece].setGeometry(50+75*abs(piece.position[0]-97), 50+75*abs(8-piece.position[1]), 75, 75)
             pixmap = QPixmap(piece.IMG)
-            self.pieces[piece].setPixmap(pixmap.scaledToWidth(75))
+            self.positions[piece].setPixmap(pixmap.scaledToWidth(75))"""
         
         
         
