@@ -1,3 +1,4 @@
+import os
 from Pieces.Piece import Piece
 
 class Pawn(Piece):
@@ -10,6 +11,7 @@ class Pawn(Piece):
 
     def __init__(self, board, position, side, condition = 'Start', did_long_move = False) -> None:
         super().__init__(board, position, side, condition)
+        self.IMG = f"{os.getcwd()}\\imgs\\WhitePawn.png" if self.side == 'White' else f"{os.getcwd()}\\imgs\\BlackPawn.png"
         self.did_long_move = did_long_move
 
     

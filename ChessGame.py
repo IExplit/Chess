@@ -75,14 +75,11 @@ class ChessGame:
             if side == 'White': pl1.alive_pieces = self.pieces.copy()
             elif side == 'Black': pl2.alive_pieces = self.pieces.copy()[16:]
         
-        get_all_pl_moves(pl1)
-        get_all_pl_moves(pl2)
-        
         def get_all_pl_moves(player):
             for piece in player.alive_pieces:
                 piece.get_moves()
         
-        def movement(self, piece, move):
+        def movement(self, piece, move, transformation = False):
             final_fields = self.board.white_final_fields.copy() + self.board.black_final_fields.copy()
             pl1, pl2 = self.players
             piece.move(move)
@@ -91,5 +88,5 @@ class ChessGame:
             get_all_pl_moves(self.motion)
             
         def transformation(self, piece, new_piece):
-            if piece.NAME == 'Pawn' and piece.position in final_fields:
-                transformation()
+            self.board.remove_piece(piece.position)
+            self.board.add_piece()

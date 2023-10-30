@@ -1,3 +1,4 @@
+import os
 from Pieces.Piece import Piece
 
 class Knight(Piece):
@@ -6,6 +7,7 @@ class Knight(Piece):
     
     def __init__(self, side, square, condition = 'Start') -> None:
         super().__init__(side, square, condition)
+        self.IMG = f"{os.getcwd()}\\imgs\\WhiteKnight.png" if self.side == 'White' else f"{os.getcwd()}\\imgs\\BlackKnight.png"
         
     def get_moves(self):
         

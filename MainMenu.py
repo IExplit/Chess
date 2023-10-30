@@ -5,6 +5,8 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel
 
 from CreatePlayers import CreatePlayers
+from ChessBoard import ChessBoard
+from ChessGame import ChessGame
 from GameWindow import GameWindow
 
 class MainMenu(QWidget):
@@ -38,7 +40,9 @@ class MainMenu(QWidget):
         self.pic.setPixmap(self.pixmap.scaledToWidth(600))
 
     def one_pc_game(self):
-        self.game_window = GameWindow()
+        game = ChessGame(ChessBoard())
+        game.arrange_pieces()
+        self.game_window = GameWindow(game)
         self.game_window.show()
 
 app = QApplication(sys.argv)

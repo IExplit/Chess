@@ -1,3 +1,4 @@
+import os
 from Pieces.Piece import Piece
 
 class Rook(Piece):
@@ -9,6 +10,8 @@ class Rook(Piece):
 
     def __init__(self, side, square, condition = 'Start') -> None:
         super().__init__(side, square, condition)
+        print(self.side)
+        self.IMG = f"{os.getcwd()}\\imgs\\WhiteRook.png" if self.side == 'White' else f"{os.getcwd()}\\imgs\\BlackRook.png"
         
     def get_moves(self):
         

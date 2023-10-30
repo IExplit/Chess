@@ -5,38 +5,47 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QTableView
 
 class GameWindow(QWidget):
-    def __init__(self, game):
+    def __init__(self, game = None):
         super().__init__()
         
         self.game = game
+        self.pieces = {}
         
         self.setWindowModality(QtCore.Qt.ApplicationModal)
         self.setWindowTitle('Chess')
         self.setFixedSize(1210, 700)
         
-        self.btn1 = QPushButton(self)
-        self.btn1.setGeometry(750, 220-40, 90, 40)
+        self.btn_first_pos = QPushButton(self)
+        self.btn_first_pos.setGeometry(750, 220-40, 90, 40)
+        self.btn_first_pos.setText('<<')
         
-        self.btn2 = QPushButton(self)
-        self.btn2.setGeometry(750+90, 220-40, 90, 40)
+        self.btn_prev_pos = QPushButton(self)
+        self.btn_prev_pos.setGeometry(750+90, 220-40, 90, 40)
+        self.btn_prev_pos.setText('<')
         
-        self.btn3 = QPushButton(self)
-        self.btn3.setGeometry(750+90*2, 220-40, 90, 40)
+        self.btn_next_pos = QPushButton(self)
+        self.btn_next_pos.setGeometry(750+90*2, 220-40, 90, 40)
+        self.btn_next_pos.setText('>')
         
-        self.btn4 = QPushButton(self)
-        self.btn4.setGeometry(750+90*3, 220-40, 90, 40)
+        self.btn_last_pos = QPushButton(self)
+        self.btn_last_pos.setGeometry(750+90*3, 220-40, 90, 40)
+        self.btn_last_pos.setText('>>')
         
-        self.btn5 = QPushButton(self)
-        self.btn5.setGeometry(750, 220+260, 90, 40)
+        self.btn_return = QPushButton(self)
+        self.btn_return.setGeometry(750, 220+260, 90, 40)
+        self.btn_return.setText('<--')
         
-        self.btn6 = QPushButton(self)
-        self.btn6.setGeometry(750+90, 220+260, 90, 40)
+        self.btn_draw = QPushButton(self)
+        self.btn_draw.setGeometry(750+90, 220+260, 90, 40)
+        self.btn_draw.setText('1/2')
         
-        self.btn7 = QPushButton(self)
-        self.btn7.setGeometry(750+90*2, 220+260, 90, 40)
+        self.btn_surrender = QPushButton(self)
+        self.btn_surrender.setGeometry(750+90*2, 220+260, 90, 40)
+        self.btn_surrender.setText('###')
         
-        self.btn8 = QPushButton(self)
-        self.btn8.setGeometry(750+90*3, 220+260, 90, 40)
+        self.btn_flip = QPushButton(self)
+        self.btn_flip.setGeometry(750+90*3, 220+260, 90, 40)
+        self.btn_flip.setText('˄˅')
         
         self.history_tbl = QTableView(self)
         self.history_tbl.setGeometry(750, 220, 360, 260)
@@ -57,6 +66,12 @@ class GameWindow(QWidget):
         self.lbl_board.setPixmap(self.pixmap_board.scaledToWidth(600))
         
         
+        for piece in self.game.players[1].alive_pieces + self.game.players[0].alive_pieces:
+            print(piece.side, piece.IMG)
+            self.pieces[piece] = QLabel(self)
+            self.pieces[piece].setGeometry(50+75*abs(piece.position[0]-97), 50+75*abs(8-piece.position[1]), 75, 75)
+            pixmap = QPixmap(piece.IMG)
+            self.pieces[piece].setPixmap(pixmap.scaledToWidth(75))
         
         
         

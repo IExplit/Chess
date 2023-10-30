@@ -1,5 +1,5 @@
+import os
 from Pieces.Piece import Piece
-
 
 class King(Piece):
    
@@ -10,6 +10,7 @@ class King(Piece):
 
    def __init__(self, board, position, side, condition = 'Start') -> None:
       super().__init__(board, position, side, condition)
+      self.IMG = f"{os.getcwd()}\\imgs\\WhiteKing.png" if self.side == 'White' else f"{os.getcwd()}\\imgs\\BlackKing.png"
       self.check = False
       self.mate = False
    
