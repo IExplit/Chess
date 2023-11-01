@@ -12,6 +12,7 @@ class GameWindow(QWidget):
         super().__init__()
         
         self.reverse = 0
+        self.selected_piece = None
         
         self.game = game
         self.positions = {}
@@ -54,7 +55,7 @@ class GameWindow(QWidget):
         self.lbl_char_8 = QLabel(self)
         self.set_board()
         
-        self.set_pieces()
+        self.set_pieces(start=True)
     
     def set_game_tools(self):
         
@@ -170,26 +171,54 @@ class GameWindow(QWidget):
         self.lbl_char_8.setStyleSheet("QLabel{font-size: 15pt;}")
         self.lbl_char_8.setText('8')
         
-    def set_pieces(self):
+    def get_pos_in_window(self, x, y):
+        return (50+75*(x-97), 50+abs(75*(8-y)-525*self.reverse))
+    
+    def set_pixmap(self, label, img = ''):
+        pixmap = QPixmap(img)
+        label.setPixmap(pixmap.scaledToWidth(75))
+        
+    def set_pieces(self, start = False):
         
         for pos in self.game.board.positions.keys():
             x, y = pos
             piece = self.game.board.positions[pos]['piece']
-            pos_in_window = (50+75*(x-97), 50+abs(75*(8-y)-525*self.reverse))
+            pos_in_window = self.get_pos_in_window(x, y)
             x1, y1 = pos_in_window
             if pos_in_window not in self.positions.keys():
                 self.positions[pos_in_window] = {'piece': piece, 'label': QLabelClicable(self)}
+            self.positions[pos_in_window]['piece'] = piece
             label = self.positions[pos_in_window]['label']
             label.setGeometry(x1, y1, 75, 75)
             if piece is not None:
-                pixmap = QPixmap(piece.IMG)
-                label.setPixmap(pixmap.scaledToWidth(75))
-                label.setCursor(Qt.PointingHandCursor)
-                label.clicked.connect(self.click)
+                self.set_pixmap(label, piece.IMG)
+                if piece.side == self.game.motion.side:
+                    label.setCursor(Qt.PointingHandCursor)
+                else:
+                    label.setCursor(Qt.ArrowCursor)
+            if start == True: label.clicked.connect(self.click)
+        
+        self.game.get_all_pl_moves(self.game.motion)
     
     def click(self):
         x, y, _, _ = self.sender().geometry().getRect()
-        print((x, y),self.positions[(x, y)]['piece'].position , sep='\n')
+        piece = self.positions[(x, y)]['piece']
+        game = self.game
+        if self.selected_piece is not None:
+            for pos in self.selected_piece.movements:
+                label = self.positions[self.get_pos_in_window(pos[0], pos[1])]['label']
+                self.set_pixmap(label)
+                label.setCursor(Qt.ArrowCursor)
+            self.selected_piece = None
+        if piece is not None and game.motion.side == piece.side:
+            self.selected_piece = piece
+            for pos in piece.movements:
+                print(pos)
+                label = self.positions[self.get_pos_in_window(pos[0], pos[1])]['label']
+                self.set_pixmap(label, os.getcwd()+'\\imgs\\MovingDot.png')
+                label.setCursor(Qt.PointingHandCursor)
+            print(piece)
+            print((x, y),self.positions[(x, y)]['piece'].position , sep='\n')
         
     def flip_board(self):
         self.reverse = abs(self.reverse - 1)
