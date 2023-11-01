@@ -27,7 +27,7 @@ class Pawn(Piece):
                 if (v, h) in self.board.positions.keys():
                     attacked_pos.append((v, h))
 
-            if (v, h) in self.board.positions.keys() and self.board.get_pos((x, y + 1))['piece'] == None:
+            if (x, y) in self.board.positions.keys() and self.board.get_pos((x, y + 1))['piece'] == None:
                 movements.append((x, y + 1))
 
                 if self.condition == 'Start':

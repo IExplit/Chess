@@ -41,11 +41,11 @@ class King(Piece):
          if (x-4, y) in self.board.positions.keys():
             print(x-4, y)
             print(self.board.get_pos((x-4, y))['threats'])
-            if self.board.get_pos((x-4, y))['piece'] is not None:
+            if self.board.get_pos((x-4, y))['piece'] is not None and not self.board.get_pos((x-2, y))['piece']:
                if self.board.get_pos((x-4, y))['piece'].NAME == 'Rook' and self.board.get_pos((x-4, y))['piece'].side == self.side and self.board.get_pos((x-4, y))['piece'].condition == 'Start':
                   movements.append((x-2, y))
              
-            if self.board.get_pos((x+3, y))['piece'] is not None:
+            if self.board.get_pos((x+3, y))['piece'] is not None and not self.board.get_pos((x+2, y))['piece']:
                if self.board.get_pos((x-3, y))['piece'].NAME == 'Rook' and self.board.get_pos((x-4, y))['piece'].side == self.side and self.board.get_pos((x-4, y))['piece'].condition == 'Start':
                   movements.append((x+2, y))
 

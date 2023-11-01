@@ -212,8 +212,9 @@ class GameWindow(QWidget):
             self.selected_piece = None
         if piece is not None and game.motion.side == piece.side:
             self.selected_piece = piece
+            print(piece.movements)
             for pos in piece.movements:
-                print(pos)
+                print(game.board.positions[pos]['piece'] in game.motion.alive_pieces)
                 label = self.positions[self.get_pos_in_window(pos[0], pos[1])]['label']
                 self.set_pixmap(label, os.getcwd()+'\\imgs\\MovingDot.png')
                 label.setCursor(Qt.PointingHandCursor)

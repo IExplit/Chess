@@ -78,6 +78,7 @@ class ChessGame:
     def get_all_pl_moves(self, player):
         for piece in player.alive_pieces:
             piece.get_moves()
+            print(piece.position, piece.movements)
         
     def movement(self, piece, move, transformation = False):
         final_fields = self.board.white_final_fields.copy() + self.board.black_final_fields.copy()

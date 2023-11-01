@@ -76,21 +76,11 @@ class ChessBoard:
 
 
 board = ChessBoard()
-r = Pawn(board, (100, 5), 'Black', did_long_move=True, condition='Alive')
-r1 = Pawn(board, (101, 5), 'White', condition='Alive')
-r3 = Pawn(board, (102, 7), 'Black')
+r = Pawn(board, (104, 2), 'White')
 
 board.add_piece(r)
-board.add_piece(r1)
-board.add_piece(r3)
 r.get_moves()
-r3.get_moves()
-r1.get_moves()
-
-
-print(r3.__dict__)
-r3.move((102, 5))
-print(r3.__dict__)
+print(r.movements)
 
 
 
