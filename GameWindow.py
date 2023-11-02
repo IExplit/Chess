@@ -186,7 +186,7 @@ class GameWindow(QWidget):
             pos_in_window = self.get_pos_in_window(x, y)
             x1, y1 = pos_in_window
             if pos_in_window not in self.positions.keys():
-                self.positions[pos_in_window] = {'piece': piece, 'label': QLabelClicable(self)}
+                self.positions[pos_in_window] = {'piece': piece, 'label': QLabelClicable(self), 'board_position': (x, y)}
             self.positions[pos_in_window]['piece'] = piece
             label = self.positions[pos_in_window]['label']
             label.setGeometry(x1, y1, 75, 75)
@@ -203,8 +203,16 @@ class GameWindow(QWidget):
     def click(self):
         x, y, _, _ = self.sender().geometry().getRect()
         piece = self.positions[(x, y)]['piece']
+        label = self.positions[(x, y)]['label']
         game = self.game
         if self.selected_piece is not None:
+
+            if (x, y) in [self.get_pos_in_window(move[0], move[1]) for move in self.selected_piece.movements:
+                x1, y1 = self.selected_piece.position
+                x1, y1 = self.get_pos_in_window(x1, y1)
+                self.set_pixmap(self.positions.[x1, y1]['label'])
+                self.selected_piece.move(self.positions['board_position'])
+
             for pos in self.selected_piece.movements:
                 label = self.positions[self.get_pos_in_window(pos[0], pos[1])]['label']
                 self.set_pixmap(label)
