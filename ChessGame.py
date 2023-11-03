@@ -42,6 +42,7 @@ class ChessGame:
                 board.add_piece(pawn2)
                 self.pieces.append(pawn1)
                 self.pieces.append(pawn2)
+                print(f'add {pawn1, pawn2}]')
                 if cnt == 7:
                     rook1 = Rook(board, (x, 1 if side == 'White' else 8), side)
                     rook2 = Rook(board, (x+cnt, 1 if side == 'White' else 8), side)
@@ -49,6 +50,7 @@ class ChessGame:
                     board.add_piece(rook2)
                     self.pieces.append(rook1)
                     self.pieces.append(rook2)
+                    print(f'add {rook1, rook2}]')
                 elif cnt == 5:
                     knight1 = Knight(board, (x, 1 if side == 'White' else 8), side)
                     knight2 = Knight(board, (x+cnt, 1 if side == 'White' else 8), side)
@@ -56,6 +58,7 @@ class ChessGame:
                     board.add_piece(knight2)
                     self.pieces.append(knight1)
                     self.pieces.append(knight2)
+                    print(f'add {knight1, knight2}]')
                 elif cnt == 3:
                     bishop1 = Bishop(board, (x, 1 if side == 'White' else 8), side)
                     bishop2 = Bishop(board, (x+cnt, 1 if side == 'White' else 8), side)
@@ -63,6 +66,7 @@ class ChessGame:
                     board.add_piece(bishop2)
                     self.pieces.append(bishop1)
                     self.pieces.append(bishop2)
+                    print(f'add {bishop1, bishop2}]')
                 elif cnt == 1:
                     queen = Queen(board, (x, 1 if side == 'White' else 8), side)
                     king = King(board, (x+cnt, 1 if side == 'White' else 8), side)
@@ -70,6 +74,7 @@ class ChessGame:
                     board.add_piece(king)
                     self.pieces.append(queen)
                     self.pieces.append(king)
+                    print(f'add {queen, king}]')
                 cnt -= 2
             
             if side == 'White': pl1.alive_pieces = self.pieces.copy()
