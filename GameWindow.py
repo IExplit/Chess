@@ -201,38 +201,34 @@ class GameWindow(QWidget):
         self.game.get_all_pl_moves(self.game.motion)
     
     def click(self):
-        x, y, _, _ = self.sender().geometry().getRect()
-        print((x, y))
-        piece = self.positions[(x, y)]['piece']
-        label = self.positions[(x, y)]['label']
+        xe, ye, _, _ = self.sender().geometry().getRect()
+        piece = self.positions[(xe, ye)]['piece']
+        label = self.positions[(xe, ye)]['label']
         game = self.game
         if self.selected_piece is not None:
 
-            if (x, y) in [self.get_pos_in_window(move[0], move[1]) for move in self.selected_piece.movements]:
-                print('ok')
-                x1, y1 = self.selected_piece.position
-                x1, y1 = self.get_pos_in_window(x1, y1)
-                self.selected_piece.move(self.positions[(x, y)]['board_position'])
-                self.positions[(x1, y1)]['piece'] = None
-                self.positions[(x, y)]['piece'] = self.selected_piece
-                self.set_pixmap(self.positions[(x1, y1)]['label'])
+            if (xe, ye) in [self.get_pos_in_window(move[0], move[1]) for move in self.selected_piece.movements]:
+                xp, yp = self.selected_piece.position
+                xp, yp = self.get_pos_in_window(xp, yp)
+                self.selected_piece.move(self.positions[(xe, ye)]['board_position'])
+                self.positions[(xp, yp)]['piece'] = None
+                self.positions[(xe, ye)]['piece'] = self.selected_piece
+                self.set_pixmap(self.positions[(xp, yp)]['label'])
 
             for pos in self.selected_piece.movements:
                 label = self.positions[self.get_pos_in_window(pos[0], pos[1])]['label']
                 self.set_pixmap(label, self.game.board.positions[(pos[0], pos[1])]['piece'].IMG if self.positions[self.get_pos_in_window(pos[0], pos[1])]['piece'] else '')
                 label.setCursor(Qt.ArrowCursor)
+            
+            self.game.get_all_pl_moves(self.game.motion)
             self.selected_piece = None
             
         if piece is not None and game.motion.side == piece.side:
             self.selected_piece = piece
-            """print(piece.movements)"""
             for pos in piece.movements:
-                """print(game.board.positions[pos]['piece'] in game.motion.alive_pieces)"""
                 label = self.positions[self.get_pos_in_window(pos[0], pos[1])]['label']
                 self.set_pixmap(label, os.getcwd()+'\\imgs\\MovingDot.png')
                 label.setCursor(Qt.PointingHandCursor)
-            """print(piece)
-            print((x, y),self.positions[(x, y)]['piece'].position , sep='\n')"""
         
     def flip_board(self):
         self.reverse = abs(self.reverse - 1)

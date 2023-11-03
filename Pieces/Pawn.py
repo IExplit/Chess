@@ -39,8 +39,10 @@ class Pawn(Piece):
                     
                     self.board.positions[(v, h)]['threats']['White'].append(self)
 
-                    if self.board.get_pos((v, h))['piece'] != None \
+                    if (self.board.get_pos((v, h))['piece'] != None \
+                        and self.board.get_pos((v, h))['piece'].side != self.side) \
                         or (self.board.get_pos((v, h - 1))['piece'] != None \
+                            and self.board.get_pos((v, h - 1))['piece'].side != self.side\
                             and self.board.get_pos((v, h - 1))['piece'].__dict__.get('did_long_move')) == True:
                         movements.append((v, h))
         
