@@ -19,12 +19,11 @@ class Bishop(Piece):
         for i in range(3, 7):
             x, y = start_points[i-3]
 
-            while (x, y) in self.board.positions.keys():
+            while (x, y) in self.board.positions.keys() \
+                and not (self.board.get_pos((x, y)).get('piece') and self.side == self.board.get_pos((x, y))['piece'].side):
                 if self.board.get_pos((x, y)).get('piece') and self.side != self.board.get_pos((x, y))['piece'].side:
                     movements.append((x, y))
                     self.board.positions[(x, y)]['threats'][self.side].append(self)
-                    break
-                if self.board.get_pos((x, y)).get('piece') and self.side == self.board.get_pos((x, y))['piece'].side:
                     break
                 movements.append((x, y))
                 self.board.positions[(x, y)]['threats'][self.side].append(self)
