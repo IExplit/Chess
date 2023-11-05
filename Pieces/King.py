@@ -39,12 +39,13 @@ class King(Piece):
                   
       if self.condition == 'Start':
          if (x-4, y) in self.board.positions.keys():
-            if self.board.get_pos((x-4, y))['piece'] is not None and not self.board.get_pos((x-2, y))['piece']:
+            if self.board.get_pos((x-4, y))['piece'] is not None and not self.board.get_pos((x-2, y))['piece'] and not self.board.get_pos((x-1, y))['piece']:
                if self.board.get_pos((x-4, y))['piece'].NAME == 'Rook' and self.board.get_pos((x-4, y))['piece'].side == self.side and self.board.get_pos((x-4, y))['piece'].condition == 'Start':
                   movements.append((x-2, y))
              
-            if self.board.get_pos((x+3, y))['piece'] is not None and not self.board.get_pos((x+2, y))['piece']:
-               if self.board.get_pos((x-3, y))['piece'].NAME == 'Rook' and self.board.get_pos((x-4, y))['piece'].side == self.side and self.board.get_pos((x-4, y))['piece'].condition == 'Start':
+            if self.board.get_pos((x+3, y))['piece'] is not None and not self.board.get_pos((x+2, y))['piece'] and not self.board.get_pos((x+1, y))['piece']:
+               print(self.board.positions[(x+2, y)])
+               if self.board.get_pos((x+3, y))['piece'].NAME == 'Rook' and self.board.get_pos((x-4, y))['piece'].side == self.side and self.board.get_pos((x-4, y))['piece'].condition == 'Start':
                   movements.append((x+2, y))
 
       self.movements = movements
