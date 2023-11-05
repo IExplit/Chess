@@ -20,6 +20,8 @@ class Queen(Piece):
         rook.get_moves()
         bishop.get_moves()
         movements = rook.movements + bishop.movements
+        for pos in movements:
+            self.board.positions[pos]['threats'][self.side].append(self)
         self.movements = movements
         
         
