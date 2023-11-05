@@ -2,8 +2,8 @@ import os
 from PyQt5.QtGui import QPixmap, QTransform
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QCursor, QPainter
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QTableView
+from PyQt5.QtGui import QPainter
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QTableView
 
 from QLabelClicable import QLabelClicable
 
@@ -175,9 +175,11 @@ class GameWindow(QWidget):
         return (50+75*(x-97), 50+abs(75*(8-y)-525*self.reverse))
     
     def set_pixmap(self, label, piece_img = '', dot_img = ''):
+
         if not piece_img and not dot_img:
             pixmap = QPixmap(os.getcwd() + '\\imgs\\Air.png')
             label.setPixmap(pixmap.scaledToWidth(75))
+
         elif piece_img and dot_img:
             piece_pixmap = QPixmap(piece_img)
             dot_pixmap = QPixmap(dot_img)
@@ -186,67 +188,90 @@ class GameWindow(QWidget):
             painter.end()
             label.setPixmap(piece_pixmap.scaledToWidth(75))
             pass
+
         elif piece_img:
             pixmap = QPixmap(piece_img)
             label.setPixmap(pixmap.scaledToWidth(75))
+
         elif dot_img:
             pixmap = QPixmap(dot_img)
             label.setPixmap(pixmap.scaledToWidth(75))
-
-        
         
     def set_pieces(self, start = False):
         
-        for xb, yb in self.game.board.positions.keys():
-            piece = self.game.board.positions[(xb, yb)]['piece']
-            pos_in_window = self.get_pos_in_window(xb, yb)
-            xw, yw = pos_in_window
-            if pos_in_window not in self.positions.keys():
-                self.positions[pos_in_window] = {'board_position': (xb, yb), 'piece': piece, 'label': QLabelClicable(self)}
-            self.positions[pos_in_window]['piece'] = piece
-            label = self.positions[pos_in_window]['label']
-            label.setGeometry(xw, yw, 75, 75)
+        for x_board, y_board in self.game.board.positions.keys():
+            piece = self.game.board.positions[(x_board, y_board)]['piece']
+            x_win, y_win = self.get_pos_in_window(x_board, y_board)
+
+            if (x_win, y_win) not in self.positions.keys():
+                self.positions[(x_win, y_win)] = {
+                    'board_position': (x_board, y_board),
+                    'piece': piece,
+                    'label': QLabelClicable(self)
+                }
+
+            else:
+                self.positions[(x_win, y_win)]['board_position'] = (x_board, y_board)
+                self.positions[(x_win, y_win)]['piece'] = piece
+
+            label = self.positions[(x_win, y_win)]['label']
+            label.setGeometry(x_win, y_win, 75, 75)
+            self.set_pixmap(label=label)
+
             if piece is not None:
-                self.set_pixmap(label, piece.IMG)
+                self.set_pixmap(label=label, piece_img=piece.IMG)
+
                 if piece.side == self.game.motion.side:
                     label.setCursor(Qt.PointingHandCursor)
+
                 else:
                     label.setCursor(Qt.ArrowCursor)
+
             if start == True: label.clicked.connect(self.click)
         
         self.game.get_all_pl_moves(self.game.motion)
     
     def click(self):
-        xe, ye, _, _ = self.sender().geometry().getRect()
-        piece = self.positions[(xe, ye)]['piece']
-        label = self.positions[(xe, ye)]['label']
+
+        x_event, y_event, _, _ = self.sender().geometry().getRect()
+        piece = self.positions[(x_event, y_event)]['piece']
+        label = self.positions[(x_event, y_event)]['label']
         game = self.game
+
         if self.selected_piece is not None:
 
-            if (xe, ye) in [self.get_pos_in_window(x, y) for x, y in self.selected_piece.movements]:
-                xp, yp = self.selected_piece.position
-                xp, yp = self.get_pos_in_window(xp, yp)
-                self.selected_piece.move(self.positions[(xe, ye)]['board_position'])
-                self.positions[(xp, yp)]['piece'] = None
-                self.positions[(xe, ye)]['piece'] = self.selected_piece
-                self.positions[(xp, yp)]['label'].setCursor(Qt.ArrowCursor)
-                self.set_pixmap(self.positions[(xp, yp)]['label'])
+            if (x_event, y_event) in [self.get_pos_in_window(x, y) for x, y in self.selected_piece.movements]:
+                x_piece, y_piece = self.selected_piece.position
+                x_piece, y_piece = self.get_pos_in_window(x_piece, y_piece)
+                self.selected_piece.move(self.positions[(x_event, y_event)]['board_position'])
+                self.positions[(x_piece, y_piece)]['piece'] = None
+                self.positions[(x_event, y_event)]['piece'] = self.selected_piece
+                self.positions[(x_piece, y_piece)]['label'].setCursor(Qt.ArrowCursor)
+                self.set_pixmap(self.positions[(x_piece, y_piece)]['label'])
 
-            for xm, ym in self.selected_piece.movements:
-                label = self.positions[self.get_pos_in_window(xm, ym)]['label']
-                self.set_pixmap(label, self.game.board.positions[(xm, ym)]['piece'].IMG if self.positions[self.get_pos_in_window(xm, ym)]['piece'] else '')
-                if not self.game.board.positions[(xm, ym)]['piece']: label.setCursor(Qt.ArrowCursor)
+            for x_move, y_move in self.selected_piece.movements:
+                label = self.positions[self.get_pos_in_window(x_move, y_move)]['label']
+                self.set_pixmap(
+                    label=label,
+                    piece_img=self.game.board.positions[(x_move, y_move)]['piece'].IMG if self.positions[self.get_pos_in_window(x_move, y_move)]['piece'] else ''
+                )
+                if not self.game.board.positions[(x_move, y_move)]['piece']: label.setCursor(Qt.ArrowCursor)
             
             self.game.get_all_pl_moves(self.game.motion)
             self.selected_piece = None
         
         if piece is not None and game.motion.side == piece.side:
             self.selected_piece = piece
-            for xm, ym in piece.movements:
-                label = self.positions[self.get_pos_in_window(xm, ym)]['label']
-                self.set_pixmap(label, piece_img = self.positions[self.get_pos_in_window(xm, ym)]['piece'].IMG if self.positions[self.get_pos_in_window(xm, ym)]['piece'] else '', dot_img = os.getcwd()+'\\imgs\\MovingDot.png')
+
+            for x_move, y_move in piece.movements:
+                label = self.positions[self.get_pos_in_window(x_move, y_move)]['label']
+                self.set_pixmap(
+                    label=label,
+                    piece_img = self.positions[self.get_pos_in_window(x_move, y_move)]['piece'].IMG if self.positions[self.get_pos_in_window(x_move, y_move)]['piece'] else '',
+                    dot_img = os.getcwd()+'\\imgs\\MovingDot.png'
+                )
                 label.setCursor(Qt.PointingHandCursor)
-        
+                
     def flip_board(self):
         self.reverse = abs(self.reverse - 1)
         self.set_board()
