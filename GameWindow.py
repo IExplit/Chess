@@ -176,7 +176,7 @@ class GameWindow(QWidget):
     
     def set_pixmap(self, label, piece_img = '', dot_img = ''):
         if not piece_img and not dot_img:
-            pixmap = QPixmap(piece_img)
+            pixmap = QPixmap(os.getcwd() + '\\imgs\\Air.png')
             label.setPixmap(pixmap.scaledToWidth(75))
         elif piece_img and dot_img:
             piece_pixmap = QPixmap(piece_img)
@@ -242,11 +242,6 @@ class GameWindow(QWidget):
         
         if piece is not None and game.motion.side == piece.side:
             self.selected_piece = piece
-            cnt = 0
-            for i, j in self.positions.keys():
-                if self.positions[(i, j)]['piece']:
-                    cnt += 1
-                    print(cnt, self.positions[(i, j)]['piece'])
             for xm, ym in piece.movements:
                 label = self.positions[self.get_pos_in_window(xm, ym)]['label']
                 self.set_pixmap(label, piece_img = self.positions[self.get_pos_in_window(xm, ym)]['piece'].IMG if self.positions[self.get_pos_in_window(xm, ym)]['piece'] else '', dot_img = os.getcwd()+'\\imgs\\MovingDot.png')
