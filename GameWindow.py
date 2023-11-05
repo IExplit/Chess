@@ -246,6 +246,11 @@ class GameWindow(QWidget):
                 label = self.positions[self.get_pos_in_window(xm, ym)]['label']
                 self.set_pixmap(label, piece_img = self.positions[self.get_pos_in_window(xm, ym)]['piece'].IMG if self.positions[self.get_pos_in_window(xm, ym)]['piece'] else '', dot_img = os.getcwd()+'\\imgs\\MovingDot.png')
                 label.setCursor(Qt.PointingHandCursor)
+        if piece is not None:
+            for i in self.game.board.positions.keys():
+                if self.game.board.positions[i]['threats'][self.selected_piece.side]:
+                    print(i, self.game.board.positions[i]['threats'][self.selected_piece.side])
+        print('-----------------')
         
     def flip_board(self):
         self.reverse = abs(self.reverse - 1)

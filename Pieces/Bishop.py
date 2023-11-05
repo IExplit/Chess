@@ -25,9 +25,9 @@ class Bishop(Piece):
                     movements.append((x, y))
                     self.board.positions[(x, y)]['threats'][self.side].append(self)
                     break
+                if self not in self.board.positions[(x, y)]['threats'][self.side]:
+                    self.board.positions[(x, y)]['threats'][self.side].append(self)
                 movements.append((x, y))
-                self.board.positions[(x, y)]['threats'][self.side].append(self)
-                print((x, y))
                 if i % 2 != 0:
                     if i % 3 == 0:
                         x -= 1
@@ -42,7 +42,6 @@ class Bishop(Piece):
                     elif i % 3 != 0:
                         y += 1
                         x += 1
-        print('-----------')
                         
         self.movements = movements
         

@@ -27,8 +27,9 @@ class Rook(Piece):
                     movements.append((x, y))
                     self.board.positions[(x, y)]['threats'][self.side].append(self)
                     break
+                if self not in self.board.positions[(x, y)]['threats'][self.side]:
+                    self.board.positions[(x, y)]['threats'][self.side].append(self)
                 movements.append((x, y))
-                self.board.positions[(x, y)]['threats'][self.side].append(self)
                 if i % 2 != 0:
                     if i % 3 == 0:
                         x -= 1

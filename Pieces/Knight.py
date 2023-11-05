@@ -29,7 +29,8 @@ class Knight(Piece):
             else:
                 movements.remove((x, y))
         for move in movements:
-            self.board.positions[move]['threats'][self.side].append(self)
+            if self not in self.board.positions[move]['threats'][self.side]:
+                    self.board.positions[move]['threats'][self.side].append(self)
             
         self.movements = movements
         
