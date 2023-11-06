@@ -12,7 +12,7 @@ from Player import Player
 
 class ChessGame:
     
-    history = []
+    history = {}
     pieces = []
     
     def __init__(
@@ -82,14 +82,6 @@ class ChessGame:
                 continue
             piece.get_moves()
         king.get_moves()
-        
-    def movement(self, piece, move, transformation = False):
-        final_fields = self.board.white_final_fields.copy() + self.board.black_final_fields.copy()
-        pl1, pl2 = self.players
-        piece.move(move)
-        piece.get_moves()
-        self.motion = pl2 if self.motion == pl1 else pl1
-        self.get_all_pl_moves(self.motion)
             
     def transformation(self, piece, new_piece):
         self.board.remove_piece(piece.position)

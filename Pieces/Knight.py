@@ -4,14 +4,19 @@ from Pieces.Piece import Piece
 class Knight(Piece):
     
     NAME = 'Knight'
-
-    def __repr__(self) -> str:
-        return self.side + __name__
     
-    def __init__(self, side, square, condition = 'Start') -> None:
-        super().__init__(side, square, condition)
+    def __init__(self, side, position, condition = 'Start') -> None:
+        super().__init__(side, position, condition)
         self.IMG = f"{os.getcwd()}\\imgs\\WhiteKnight.png" if self.side == 'White' else f"{os.getcwd()}\\imgs\\BlackKnight.png"
         
+    def __repr__(self) -> str:
+        return f'{self.side}{self.NAME}({self.condition}, {self.position}, {self.movements})'
+    
+    def __str__(self):
+        x, y, = self.position
+        x =  chr(x)
+        return f'N{x}{y}'
+
     def get_moves(self):
         
         x, y = self.position

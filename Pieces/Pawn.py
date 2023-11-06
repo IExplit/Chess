@@ -14,7 +14,14 @@ class Pawn(Piece):
         self.IMG = f"{os.getcwd()}\\imgs\\WhitePawn.png" if self.side == 'White' else f"{os.getcwd()}\\imgs\\BlackPawn.png"
         self.did_long_move = did_long_move
 
+    def __repr__(self) -> str:
+        return f'{self.side}{self.NAME}({self.condition}, {self.position}, {self.movements})'
     
+    def __str__(self):
+        x, y, = self.position
+        x =  chr(x)
+        return f'{x}{y}'
+
     def get_moves(self):
         movements = []
         attacked_pos = []

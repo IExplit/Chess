@@ -6,10 +6,18 @@ class Bishop(Piece):
     
     NAME = 'Bishop'
     
-    def __init__(self, side, square, condition = 'Start') -> None:
-        super().__init__(side, square, condition)
+    def __init__(self, side, position, condition = 'Start') -> None:
+        super().__init__(side, position, condition)
         self.IMG = f"{os.getcwd()}\\imgs\\WhiteBishop.png" if self.side == 'White' else f"{os.getcwd()}\\imgs\\BlackBishop.png"
         
+    def __repr__(self) -> str:
+        return f'{self.side}{self.NAME}({self.condition}, {self.position}, {self.movements})'
+    
+    def __str__(self):
+        x, y, = self.position
+        x =  chr(x)
+        return f'B{x}{y}'
+
     def get_moves(self):
         
         movements = []

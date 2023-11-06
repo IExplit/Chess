@@ -5,14 +5,19 @@ class King(Piece):
    
    NAME = 'King'
      
-   def __repr__(self) -> str:
-      return self.side + __name__
-
    def __init__(self, board, position, side, condition = 'Start') -> None:
       super().__init__(board, position, side, condition)
       self.IMG = f"{os.getcwd()}\\imgs\\WhiteKing.png" if self.side == 'White' else f"{os.getcwd()}\\imgs\\BlackKing.png"
       self.check = False
       self.mate = False
+   
+   def __repr__(self) -> str:
+        return f'{self.side}{self.NAME}({self.condition}, check = {self.check}, {self.position}, {self.movements})'
+    
+   def __str__(self):
+      x, y, = self.position
+      x =  chr(x)
+      return f'K{x}{y}'
    
    def get_moves(self):
 
