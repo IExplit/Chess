@@ -46,7 +46,8 @@ class ChessBoard:
 
     def remove_piece(self, position):
         piece = self.positions[position]['piece']
-        threats = piece.attacked_pos if piece.NAME == 'Pawn' else piece.movements
+        name = piece.NAME
+        threats = piece.attacked_pos if name == 'Pawn' or name == 'King' else piece.movements
         side = piece.side
 
         for threat in threats:

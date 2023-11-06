@@ -22,6 +22,7 @@ class King(Piece):
    def get_moves(self):
 
       movements = []
+      attacked_pos = []
       x, y = self.position
 
       for v in range(x - 1, x + 2):
@@ -35,10 +36,12 @@ class King(Piece):
 
                if self.side == 'White' and self.side != pos_side and not pos_threats['Black']:
                   movements.append((v, h))
+                  attacked_pos.append((v, h))
 
                if self.side == 'Black' and self.side != pos_side and not pos_threats['White']:
                   movements.append((v, h))
-                  
+                  attacked_pos.append((v, h))
+
                if self.side != pos_side:
                   self.board.positions[(v, h)]['threats'][self.side].append(self)
                   
@@ -51,7 +54,8 @@ class King(Piece):
             if self.board.get_pos((x+3, y))['piece'] is not None and not self.board.get_pos((x+2, y))['piece'] and not self.board.get_pos((x+1, y))['piece']:
                if self.board.get_pos((x+3, y))['piece'].NAME == 'Rook' and self.board.get_pos((x-4, y))['piece'].side == self.side and self.board.get_pos((x-4, y))['piece'].condition == 'Start':
                   movements.append((x+2, y))
-
+      
+      self.attacked_pos = attacked_pos
       self.movements = movements
 
 
