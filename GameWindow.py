@@ -238,6 +238,7 @@ class GameWindow(QWidget):
         label = self.positions[(x_event, y_event)]['label']
         game = self.game
         board = game.board
+        history = game.history
 
         if self.selected_piece is not None:
 
@@ -249,6 +250,9 @@ class GameWindow(QWidget):
                 self.positions[(x_event, y_event)]['piece'] = self.selected_piece
                 self.positions[(x_piece, y_piece)]['label'].setCursor(Qt.ArrowCursor)
                 self.set_pixmap(self.positions[(x_piece, y_piece)]['label'])
+                if len(history.get(len(history), ['']*2)) == 2:
+                    history[len(history)+1] = []
+                history[len(history)].append(str(self.selected_piece))
 
             for x_move, y_move in self.selected_piece.movements:
                 label = self.positions[self.get_pos_in_window(x_move, y_move)]['label']
@@ -257,9 +261,11 @@ class GameWindow(QWidget):
                     piece_img=board.positions[(x_move, y_move)]['piece'].IMG if self.positions[self.get_pos_in_window(x_move, y_move)]['piece'] else ''
                 )
                 if not board.positions[(x_move, y_move)]['piece']: label.setCursor(Qt.ArrowCursor)
-            
+
+            game.motion = game.players[abs(len(history[len(history)])//2-1)]
             game.get_all_pl_moves(self.game.motion)
             self.selected_piece = None
+            self.set_pieces()
         
         if piece is not None and game.motion.side == piece.side:
             self.selected_piece = piece
