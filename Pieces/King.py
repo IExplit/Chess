@@ -4,7 +4,7 @@ from Pieces.Piece import Piece
 class King(Piece):
    
    NAME = 'King'
-     
+   
    def __init__(self, board, position, side, condition = 'Start') -> None:
       super().__init__(board, position, side, condition)
       self.IMG = f"{os.getcwd()}\\imgs\\WhiteKing.png" if self.side == 'White' else f"{os.getcwd()}\\imgs\\BlackKing.png"
@@ -58,5 +58,23 @@ class King(Piece):
       self.attacked_pos = attacked_pos
       self.movements = movements
 
+   def move(self, move):
+      x, y = self.position
+      x_move, y_move = move
+      if move in self.movements and self.condition is not 'Die':
+         if self.condition == 'Start' and move not in self.attacked_pos:
+            if (x-2, y) == move:
+               rook_coords = (x-4, y)
+               rook = self.board.get_pos(rook_coords)['piece']
+               rook_coords = (x-4+2, y)
+            elif (x+2, y) == move:
+               rook_coords = (x+3, y)
+               rook = self.board.get_pos(rook_coords)['piece']
+               rook_coords = (x+3-2, y)
+            rook.move(rook_coords)
+         self.board.remove_piece(self.position)
+         self.position = move
+         self.condition = 'Alive'
+         self.board.add_piece(self)
 
       
